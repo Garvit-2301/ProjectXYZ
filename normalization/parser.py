@@ -24,9 +24,14 @@ class GarminNormalizer:
             raw_data.get("stress", {}).get("avgStressLevel", None)
         )
 
-        body_battery = (
-            raw_data.get("body_battery", {}).get("chargedValue", None)
-        )
+        # Handle body_battery which might be a list or dict
+        body_battery_data = raw_data.get("body_battery", {})
+        body_battery = None
+        if isinstance(body_battery_data, dict):
+            body_battery = body_battery_data.get("chargedValue", None)
+        elif isinstance(body_battery_data, list) and len(body_battery_data) > 0:
+            # If it's a list, try to get the first element's chargedValue
+            body_battery = body_battery_data[0].get("chargedValue", None) if isinstance(body_battery_data[0], dict) else None
 
         return RecoveryMetrics(
             sleep_score=sleep_score,

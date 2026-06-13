@@ -9,7 +9,7 @@ from utils.formatter import(
     print_response
 )
 
-load_dotenv
+load_dotenv()
 
 GARMIN_EMAIL = os.getenv("GARMIN_EMAIL")
 GARMIN_PASSWORD = os.getenv("GARMIN_PASSWORD")
